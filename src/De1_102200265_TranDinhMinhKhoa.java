@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -13,6 +14,6 @@ public class De1_102200265_TranDinhMinhKhoa {
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-        MainFrame m=new MainFrame();
+        TestForm.run();
     }
 }

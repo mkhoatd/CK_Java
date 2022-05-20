@@ -1,3 +1,7 @@
-Thit pham minh tuan,3,Ba Chi
-Thit dinh quoc phuong,3,Rau Muong
-Thit nguyen tan khoi.ư5.Carot
+Thit ba chi,3,Pham Minh Tuan
+Rau muong,1,Mai Van Ha
+Thit ga,2,Mai Van Ha
+Thit ba chi,2,Dang Duy Thang
+Hanh tay,5,Pham Minh Tuan
+Carot,3,Dang Duy Thang
+Hanh tay,3,Dang Duy Thang

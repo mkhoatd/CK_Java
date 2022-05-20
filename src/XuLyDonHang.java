@@ -26,18 +26,19 @@ public class XuLyDonHang {
         }
         return result;
     }
-    public List<String> getMatHangVaTien(String tenMatHang){
+    public List<String> getGoiY(String tenMatHang){
         List<String> result=new ArrayList<>();
         List<String> tenNguoiMua=getTenNguoiMua(tenMatHang);        //ten nguoi mua mat hang
         Map<String, Integer> map= new HashMap<>();     //map tuc la cac key-value
         for(String[] x:dataImported){
             if(tenNguoiMua.contains(x[2])){                         //neu 1 mat hang co chung nguoi mua voi mat hang kia
-                if(!map.containsKey(x[2])) {                        //neu map khong co key la nguoi mua
-                    map.put(x[2], Integer.valueOf(x[1]));           //them key vao, so tien la gia cua mat hang
+                if(!map.containsKey(x[0])) {                        //neu map khong co key la nguoi mua
+                    map.put(x[0], Integer.valueOf(x[1]));           //them key vao, so tien la gia cua mat hang
                 }
-                else map.replace(x[2],map.get(x[2])+Integer.parseInt(x[1]));    //neu da co thi + them tien
+                else map.replace(x[0],map.get(x[0])+Integer.parseInt(x[1]));    //neu da co thi + them tien
             }
         }
+        map.remove(tenMatHang);
         map.forEach((key, value) -> result.add(key+", "+value.toString()));
         //tuong duong voi
 //        for (Map.Entry<String, Integer> entry : map.entrySet()) {
