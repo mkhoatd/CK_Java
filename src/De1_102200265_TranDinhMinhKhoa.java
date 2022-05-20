@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 
 public class De1_102200265_TranDinhMinhKhoa {
     public static void main(String[] args){
-        String dbURL="jdbc:postgresql://localhost/?user=postgres&password=140521";
+        String dbURL="jdbc:postgresql://localhost:5432/CuoiKy?user=postgres&password=140521";
         try{
             Connection conn= DriverManager.getConnection(dbURL);
             if (conn!=null ) {

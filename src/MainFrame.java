@@ -5,11 +5,13 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import com.opencsv.CSVReader;
 import java.util.List;
 public class MainFrame extends JFrame {
+    private List<String[]> dataImported= new ArrayList<>();
     public MainFrame(){
         this.setSize(512,256);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -36,8 +38,8 @@ public class MainFrame extends JFrame {
             {
                 FileReader inputFile=new FileReader(url);
                 CSVReader reader =new CSVReader(inputFile);
-                List<String[]> r=reader.readAll();
-                r.forEach(x->System.out.println(Arrays.toString(x)));
+                dataImported=reader.readAll();
+                dataImported.forEach(x->System.out.println(Arrays.toString(x)));
             }
             catch (Exception ex)
             {
@@ -82,7 +84,6 @@ public class MainFrame extends JFrame {
         c.gridwidth=3;
         contentPanel.add(textArea,c);
         this.setVisible(true);
-
     }
 //    public MainFrame(){
 //        this.setLayout(new GridLayout(4,1));
