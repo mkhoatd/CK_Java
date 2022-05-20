@@ -92,6 +92,7 @@
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <editable value="false"/>
           <minimumSize width="50" height="50"/>
           <preferredSize width="50" height="100"/>
         </properties>
