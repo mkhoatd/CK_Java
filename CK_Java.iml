@@ -17,5 +17,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="postgresql" level="project" />
+    <orderEntry type="library" name="opencsv" level="project" />
   </component>
 </module>

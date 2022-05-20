@@ -4,8 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Arrays;
 import java.util.Scanner;
-
+import com.opencsv.CSVReader;
+import java.util.List;
 public class MainFrame extends JFrame {
     public MainFrame(){
         this.setSize(512,256);
@@ -29,19 +32,17 @@ public class MainFrame extends JFrame {
         JButton buttonImport=new JButton("Import file");
         buttonImport.addActionListener(e -> {
             String url=textFieldFileName.getText();
-            File inputFile=new File(url);
-            Scanner fileScanner=null;
-            try {
-                fileScanner=new Scanner(inputFile);
+            try
+            {
+                FileReader inputFile=new FileReader(url);
+                CSVReader reader =new CSVReader(inputFile);
+                List<String[]> r=reader.readAll();
+                r.forEach(x->System.out.println(Arrays.toString(x)));
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex)
             {
                 textFieldFileName.setText("");
-                JOptionPane.showMessageDialog(null, "File not found");
-            }
-            while(fileScanner.hasNextLine()){
-                String line=fileScanner.nextLine();
-                System.out.println(line);
+                JOptionPane.showMessageDialog(null, "File not found"+ex.getMessage());
             }
         });
         c.gridx=2;
