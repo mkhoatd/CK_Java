@@ -2,4 +2,4 @@
 
 ## Lưu ý
 
-Mở project bằng Intellij IDEA, mở bằng IDE khác sẽ không chạy được
+Mở project bằng Intellij IDEA, mở bằng IDE khác thì không biết có chạy được không =))
