@@ -37,47 +37,38 @@ public class TestForm {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         });
-        soLuongButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String tenMatHang=keyWordTextField.getText();
-                if(tenMatHang.equals(""))
-                {
-                    JOptionPane.showMessageDialog(null, "Thieu keyword");
-                    return;
-                }
-                int soLuong= xuLy.getSoLuong(tenMatHang);
-                textArea1.setText(Integer.toString(soLuong));
+        soLuongButton.addActionListener(e -> {
+            String tenMatHang=keyWordTextField.getText();
+            if(tenMatHang.equals(""))
+            {
+                JOptionPane.showMessageDialog(null, "Thieu keyword");
+                return;
             }
+            int soLuong= xuLy.getSoLuong(tenMatHang);
+            textArea1.setText(Integer.toString(soLuong));
         });
-        tongTienButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String tenNguoiMua=keyWordTextField.getText();
-                if(tenNguoiMua.equals("")){
-                    JOptionPane.showMessageDialog(null,"Thieu keyword");
-                    return;
-                }
-                int tongTien= xuLy.getTongTien(tenNguoiMua);
-                textArea1.setText(Integer.toString(tongTien));
+        tongTienButton.addActionListener(e -> {
+            String tenNguoiMua=keyWordTextField.getText();
+            if(tenNguoiMua.equals("")){
+                JOptionPane.showMessageDialog(null,"Thieu keyword");
+                return;
             }
+            int tongTien= xuLy.getTongTien(tenNguoiMua);
+            textArea1.setText(Integer.toString(tongTien));
         });
-        goiYButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String tenMatHang=keyWordTextField.getText();
-                if(tenMatHang.equals(""))
-                {
-                    JOptionPane.showMessageDialog(null, "Thieu keyword");
-                    return;
-                }
-                List<String> result=xuLy.getGoiY(tenMatHang);
-                String text="";
-                for (String x : result) {
-                    text=text+x+"\n";
-                }
-                textArea1.setText(text);
+        goiYButton.addActionListener(e -> {
+            String tenMatHang=keyWordTextField.getText();
+            if(tenMatHang.equals(""))
+            {
+                JOptionPane.showMessageDialog(null, "Thieu keyword");
+                return;
             }
+            List<String> result=xuLy.getGoiY(tenMatHang);
+            StringBuilder text= new StringBuilder();
+            for (String x : result) {
+                text.append(x).append("\n");
+            }
+            textArea1.setText(text.toString());
         });
     }
 
