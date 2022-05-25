@@ -17,6 +17,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="postgresql" level="project" />
-    <orderEntry type="library" name="opencsv" level="project" />
+    <orderEntry type="library" name="net.sourceforge.jtds" level="application" />
+    <orderEntry type="library" name="opencsv" level="application" />
   </component>
 </module>
