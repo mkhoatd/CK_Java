@@ -2,13 +2,11 @@ import com.opencsv.CSVReader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.List;
 
-public class TestForm {
+public class MainForm {
     private JTextField fileNameTextField;
     private JButton importFileButton;
     private JTextField keyWordTextField;
@@ -22,7 +20,7 @@ public class TestForm {
     private List<String[]> dataImported;
     private XuLyDonHang xuLy;
 
-    public TestForm() {
+    public MainForm() {
         importFileButton.addActionListener(e -> {
             String url = fileNameTextField.getText();
             try {
@@ -70,8 +68,8 @@ public class TestForm {
     }
 
     public static void run() {
-        JFrame frame = new JFrame("TestForm");
-        frame.setContentPane(new TestForm().mainPanel);
+        JFrame frame = new JFrame("MainForm");
+        frame.setContentPane(new MainForm().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
