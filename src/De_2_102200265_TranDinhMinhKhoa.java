@@ -3,76 +3,81 @@ import com.opencsv.CSVReader;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainForm {
+public class De_2_102200265_TranDinhMinhKhoa {
     private JTextField fileNameTextField;
     private JButton importFileButton;
     private JTextField keyWordTextField;
-    private JButton soLuongButton;
-    private JButton tongTienButton;
-    private JButton goiYButton;
-    private JTextArea textArea1;
+    private JButton rankingButton;
+    private JButton searchButton;
+    private JButton wonTeamsButton;
+    private JTextArea outputTextArea;
     private JLabel label1;
     private JLabel label2;
     private JPanel mainPanel;
     private List<String[]> dataImported;
-    private XuLyDonHang xuLy;
 
-    public MainForm() {
+    public De_2_102200265_TranDinhMinhKhoa() {
         importFileButton.addActionListener(e -> {
             String url = fileNameTextField.getText();
             try {
                 FileReader inputFile = new FileReader(url);
                 CSVReader reader = new CSVReader(inputFile);
                 dataImported = reader.readAll();
-                dataImported.forEach(x -> System.out.println(Arrays.toString(x)));
-                xuLy = new XuLyDonHang(dataImported);
+                dataImported.stream().map(Arrays::toString).forEach(System.out::println);
+                reader.close();
+                inputFile.close();
+                JOptionPane.showMessageDialog(null, "import success");
+                String dbURL = "jdbc:postgresql://localhost:5432/cuoiky?user=postgres&password=140521";
+                Connection conn = DriverManager.getConnection(dbURL);
+                for (String[] row : dataImported) {
+                    //import to database
+                    String sql = "INSERT INTO icpc(teamname, universityname, problemid, time, result) VALUES(?,?,?,?,?)";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    preparedStatement.setString(1, row[0]);
+                    preparedStatement.setString(2, row[1]);
+                    preparedStatement.setString(3, row[2]);
+                    preparedStatement.setInt(4, Integer.parseInt(row[3]));
+                    preparedStatement.setString(5, row[4]);
+                    preparedStatement.executeUpdate();
+                }
             } catch (Exception ex) {
                 fileNameTextField.setText("");
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         });
-        soLuongButton.addActionListener(e -> {
-            String tenMatHang = keyWordTextField.getText();
-            if (tenMatHang.equals("")) {
-                JOptionPane.showMessageDialog(null, "Thieu keyword");
-                return;
-            }
-            int soLuong = xuLy.getSoLuong(tenMatHang);
-            textArea1.setText(Integer.toString(soLuong));
+        rankingButton.addActionListener(e -> {
+
         });
-        tongTienButton.addActionListener(e -> {
-            String tenNguoiMua = keyWordTextField.getText();
-            if (tenNguoiMua.equals("")) {
-                JOptionPane.showMessageDialog(null, "Thieu keyword");
-                return;
-            }
-            int tongTien = xuLy.getTongTien(tenNguoiMua);
-            textArea1.setText(Integer.toString(tongTien));
+        searchButton.addActionListener(e -> {
+
         });
-        goiYButton.addActionListener(e -> {
-            String tenMatHang = keyWordTextField.getText();
-            if (tenMatHang.equals("")) {
-                JOptionPane.showMessageDialog(null, "Thieu keyword");
-                return;
-            }
-            List<String> result = xuLy.getGoiY(tenMatHang);
-            StringBuilder text = new StringBuilder();
-            for (String x : result) {
-                text.append(x).append("\n");
-            }
-            textArea1.setText(text.toString());
+        wonTeamsButton.addActionListener(e -> {
+
         });
     }
 
-    public static void run() {
-        JFrame frame = new JFrame("MainForm");
-        frame.setContentPane(new MainForm().mainPanel);
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Quan ly ket qua ICPC");
+        frame.setContentPane(new De_2_102200265_TranDinhMinhKhoa().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        String dbURL = "jdbc:postgresql://localhost:5432/cuoiky?user=postgres&password=140521";
+        try {
+            Connection conn = DriverManager.getConnection(dbURL);
+            if (conn != null) {
+                System.out.println("Connected");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     {
@@ -137,43 +142,41 @@ public class MainForm {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 10, 10, 0);
         mainPanel.add(keyWordTextField, gbc);
-        soLuongButton = new JButton();
-        soLuongButton.setText("So luong");
+        rankingButton = new JButton();
+        rankingButton.setText("Ranking");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 10, 10, 0);
-        mainPanel.add(soLuongButton, gbc);
-        tongTienButton = new JButton();
-        tongTienButton.setText("Tong tien");
+        mainPanel.add(rankingButton, gbc);
+        searchButton = new JButton();
+        searchButton.setText("Search");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 10, 10, 0);
-        mainPanel.add(tongTienButton, gbc);
-        goiYButton = new JButton();
-        goiYButton.setText("Goi y");
-        goiYButton.setMnemonic('G');
-        goiYButton.setDisplayedMnemonicIndex(0);
+        mainPanel.add(searchButton, gbc);
+        wonTeamsButton = new JButton();
+        wonTeamsButton.setText("Won teams");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 10, 10, 0);
-        mainPanel.add(goiYButton, gbc);
-        textArea1 = new JTextArea();
-        textArea1.setEditable(false);
-        textArea1.setMinimumSize(new Dimension(50, 50));
-        textArea1.setPreferredSize(new Dimension(50, 100));
+        mainPanel.add(wonTeamsButton, gbc);
+        outputTextArea = new JTextArea();
+        outputTextArea.setEditable(false);
+        outputTextArea.setMinimumSize(new Dimension(50, 50));
+        outputTextArea.setPreferredSize(new Dimension(50, 100));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 10, 10, 0);
-        mainPanel.add(textArea1, gbc);
+        mainPanel.add(outputTextArea, gbc);
     }
 
     /**
@@ -182,4 +185,5 @@ public class MainForm {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainForm">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="De_2_102200265_TranDinhMinhKhoa">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="500" height="500"/>
@@ -57,34 +57,34 @@
         </constraints>
         <properties/>
       </component>
-      <component id="9d7d4" class="javax.swing.JButton" binding="soLuongButton" default-binding="true">
+      <component id="9d7d4" class="javax.swing.JButton" binding="rankingButton">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="So luong"/>
+          <text value="Ranking"/>
         </properties>
       </component>
-      <component id="50f59" class="javax.swing.JButton" binding="tongTienButton" default-binding="true">
+      <component id="50f59" class="javax.swing.JButton" binding="searchButton">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Tong tien"/>
+          <text value="Search"/>
         </properties>
       </component>
-      <component id="db96e" class="javax.swing.JButton" binding="goiYButton" default-binding="true">
+      <component id="db96e" class="javax.swing.JButton" binding="wonTeamsButton">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="&amp;Goi y"/>
+          <text value="Won teams"/>
         </properties>
       </component>
-      <component id="9fa91" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+      <component id="9fa91" class="javax.swing.JTextArea" binding="outputTextArea">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
