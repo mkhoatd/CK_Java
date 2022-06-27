@@ -1,13 +1,11 @@
 import com.opencsv.CSVReader;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.io.FileReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Arrays;
+import java.sql.*;
+import java.util.*;
 import java.util.List;
 
 public class De_2_102200265_TranDinhMinhKhoa {
@@ -22,6 +20,7 @@ public class De_2_102200265_TranDinhMinhKhoa {
     private JLabel label2;
     private JPanel mainPanel;
     private List<String[]> dataImported;
+    private Connection conn;
 
     public De_2_102200265_TranDinhMinhKhoa() {
         importFileButton.addActionListener(e -> {
@@ -30,15 +29,25 @@ public class De_2_102200265_TranDinhMinhKhoa {
                 FileReader inputFile = new FileReader(url);
                 CSVReader reader = new CSVReader(inputFile);
                 dataImported = reader.readAll();
-                dataImported.stream().map(Arrays::toString).forEach(System.out::println);
+                StringBuilder sb = new StringBuilder();
+                for (String[] row : dataImported) {
+                    sb.append(Arrays.toString(row));
+                    sb.append("\n");
+                }
+                outputTextArea.setText(sb.toString());
                 reader.close();
                 inputFile.close();
                 JOptionPane.showMessageDialog(null, "import success");
                 String dbURL = "jdbc:postgresql://localhost:5432/cuoiky?user=postgres&password=140521";
-                Connection conn = DriverManager.getConnection(dbURL);
+                conn = DriverManager.getConnection(dbURL);
+                String sql = "SELECT * FROM icpc";
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+                if (resultSet.next()) {
+                    return;
+                }
                 for (String[] row : dataImported) {
-                    //import to database
-                    String sql = "INSERT INTO icpc(teamname, universityname, problemid, time, result) VALUES(?,?,?,?,?)";
+                    sql = "INSERT INTO icpc(teamname, universityname, problemid, time, result) VALUES(?,?,?,?,?)";
                     PreparedStatement preparedStatement = conn.prepareStatement(sql);
                     preparedStatement.setString(1, row[0]);
                     preparedStatement.setString(2, row[1]);
@@ -53,9 +62,63 @@ public class De_2_102200265_TranDinhMinhKhoa {
             }
         });
         rankingButton.addActionListener(e -> {
+            String sql = "select teamname, universityname, count(problemId) as problems, sum(time) as time " +
+                    " from icpc where result like\'AC\'  " +
+                    "group by teamname, universityname " +
+                    "order by problems desc, time asc";
+            List<String[]> result = new ArrayList<>();
+            try {
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+                while (resultSet.next()) {
+                    String[] row = new String[4];
+                    row[0] = resultSet.getString("teamname");
+                    row[1] = resultSet.getString("universityname");
+                    row[2] = resultSet.getString("problems");
+                    row[3] = resultSet.getString("time");
+                    result.add(row);
+                }
+                //map result
 
+                StringBuilder sb = new StringBuilder();
+                for (String[] row : result) {
+                    sb.append(Arrays.toString(row));
+                    sb.append("\n");
+                }
+                outputTextArea.setText(sb.toString());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         });
         searchButton.addActionListener(e -> {
+            var keyword = keyWordTextField.getText();
+            //group by teamname and universityname, count problemId and sum time
+            String sql = "select teamname, universityname, count(problemId) as problems, sum(time) as time " +
+                    " from icpc where result like\'AC\' and universityname like '%" + keyword + "%' " +
+                    "group by teamname, universityname";
+            List<String[]> result = new ArrayList<>();
+            try {
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+                while (resultSet.next()) {
+                    String[] row = new String[3];
+                    row[0] = resultSet.getString("teamname") + "," + resultSet.getString("universityname");
+                    row[1] = resultSet.getString("problems");
+                    row[2] = Integer.toString(resultSet.getInt("time"));
+                    result.add(row);
+                }
+                //set output
+                StringBuilder sb = new StringBuilder();
+                for (String[] row : result) {
+                    sb.append(Arrays.toString(row));
+                    sb.append("\n");
+                }
+                outputTextArea.setText(sb.toString());
+            }
+            catch (Exception ex)
+            {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
 
         });
         wonTeamsButton.addActionListener(e -> {
@@ -100,6 +163,7 @@ public class De_2_102200265_TranDinhMinhKhoa {
         mainPanel.setMinimumSize(new Dimension(500, 300));
         mainPanel.setPreferredSize(new Dimension(500, 300));
         label1 = new JLabel();
+        label1.setPreferredSize(new Dimension(100, 17));
         label1.setText("Import data");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
@@ -110,6 +174,7 @@ public class De_2_102200265_TranDinhMinhKhoa {
         mainPanel.add(label1, gbc);
         fileNameTextField = new JTextField();
         fileNameTextField.setName("fileNameTextField");
+        fileNameTextField.setPreferredSize(new Dimension(100, 30));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -118,6 +183,7 @@ public class De_2_102200265_TranDinhMinhKhoa {
         gbc.insets = new Insets(0, 10, 10, 0);
         mainPanel.add(fileNameTextField, gbc);
         importFileButton = new JButton();
+        importFileButton.setPreferredSize(new Dimension(100, 30));
         importFileButton.setText("Import file");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -126,6 +192,7 @@ public class De_2_102200265_TranDinhMinhKhoa {
         gbc.insets = new Insets(0, 10, 10, 0);
         mainPanel.add(importFileButton, gbc);
         label2 = new JLabel();
+        label2.setPreferredSize(new Dimension(100, 17));
         label2.setText("Keyword");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -134,6 +201,7 @@ public class De_2_102200265_TranDinhMinhKhoa {
         gbc.insets = new Insets(0, 10, 10, 0);
         mainPanel.add(label2, gbc);
         keyWordTextField = new JTextField();
+        keyWordTextField.setPreferredSize(new Dimension(200, 30));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -143,6 +211,7 @@ public class De_2_102200265_TranDinhMinhKhoa {
         gbc.insets = new Insets(0, 10, 10, 0);
         mainPanel.add(keyWordTextField, gbc);
         rankingButton = new JButton();
+        rankingButton.setPreferredSize(new Dimension(100, 30));
         rankingButton.setText("Ranking");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -151,6 +220,7 @@ public class De_2_102200265_TranDinhMinhKhoa {
         gbc.insets = new Insets(0, 10, 10, 0);
         mainPanel.add(rankingButton, gbc);
         searchButton = new JButton();
+        searchButton.setPreferredSize(new Dimension(100, 30));
         searchButton.setText("Search");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -159,6 +229,7 @@ public class De_2_102200265_TranDinhMinhKhoa {
         gbc.insets = new Insets(0, 10, 10, 0);
         mainPanel.add(searchButton, gbc);
         wonTeamsButton = new JButton();
+        wonTeamsButton.setPreferredSize(new Dimension(100, 30));
         wonTeamsButton.setText("Won teams");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -168,8 +239,8 @@ public class De_2_102200265_TranDinhMinhKhoa {
         mainPanel.add(wonTeamsButton, gbc);
         outputTextArea = new JTextArea();
         outputTextArea.setEditable(false);
-        outputTextArea.setMinimumSize(new Dimension(50, 50));
-        outputTextArea.setPreferredSize(new Dimension(50, 100));
+        outputTextArea.setMinimumSize(new Dimension(100, 50));
+        outputTextArea.setPreferredSize(new Dimension(300, 100));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;

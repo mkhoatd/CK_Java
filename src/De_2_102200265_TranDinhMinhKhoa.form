@@ -16,6 +16,7 @@
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <preferredSize width="100" height="17"/>
           <text value="Import data"/>
         </properties>
       </component>
@@ -28,6 +29,7 @@
         </constraints>
         <properties>
           <name value="fileNameTextField"/>
+          <preferredSize width="100" height="30"/>
         </properties>
       </component>
       <component id="2bcf3" class="javax.swing.JButton" binding="importFileButton" default-binding="true">
@@ -36,6 +38,7 @@
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <preferredSize width="100" height="30"/>
           <text value="Import file"/>
         </properties>
       </component>
@@ -45,6 +48,7 @@
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <preferredSize width="100" height="17"/>
           <text value="Keyword"/>
         </properties>
       </component>
@@ -55,7 +59,9 @@
           </grid>
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
-        <properties/>
+        <properties>
+          <preferredSize width="200" height="30"/>
+        </properties>
       </component>
       <component id="9d7d4" class="javax.swing.JButton" binding="rankingButton">
         <constraints>
@@ -63,6 +69,7 @@
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <preferredSize width="100" height="30"/>
           <text value="Ranking"/>
         </properties>
       </component>
@@ -72,6 +79,7 @@
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <preferredSize width="100" height="30"/>
           <text value="Search"/>
         </properties>
       </component>
@@ -81,6 +89,7 @@
           <gridbag top="0" left="10" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <preferredSize width="100" height="30"/>
           <text value="Won teams"/>
         </properties>
       </component>
@@ -93,8 +102,8 @@
         </constraints>
         <properties>
           <editable value="false"/>
-          <minimumSize width="50" height="50"/>
-          <preferredSize width="50" height="100"/>
+          <minimumSize width="100" height="50"/>
+          <preferredSize width="300" height="100"/>
         </properties>
       </component>
     </children>
