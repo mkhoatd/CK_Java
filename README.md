@@ -1,9 +1,4 @@
-# ĐỀ THI THỬ CUỐI KỲ JAVA
+# Demo TimePeriodLibrary.NET
 
-## Hướng dẫn sử dụng
-
-![img.png](img.png)
-
-Nhập doan.txt vào ô Import data, sau đó chọn Import file
-
-<img width="1623" alt="image" src="https://user-images.githubusercontent.com/75836068/179643946-f5f49dee-0092-41b9-9850-98d8a753c034.png">
+## Tìm khoản thời gian trống trong lịch
+<img width="415" alt="image" src="https://user-images.githubusercontent.com/75836068/180017815-a47767b8-ea5b-4e93-bf0e-c3e2a6968bbf.png">
